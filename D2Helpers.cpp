@@ -23,6 +23,9 @@ void Log(char* szFormat, ...) {
     vsprintf_s(szString, len + 1, szFormat, vaArgs);
     va_end(vaArgs);
 
+    if (len > 0 && szString[len - 1] == '\n')
+        szString[len - 1] = 0;
+
     LogNoFormat(szString);
 
     delete[] szString;
@@ -38,11 +41,6 @@ void LogNoFormat(char* szString) {
 
     char path[_MAX_PATH + _MAX_FNAME] = "";
     sprintf_s(path, sizeof(path), "%sd2bs.log", Vars.szPath);
-
-	int len = strlen(szString);
-    if (szString && szString[len - 1] == '\n') {
-        szString[len - 1] = 0;
-	}
 
 #ifdef DEBUG
     FILE* log = stderr;
